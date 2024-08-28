@@ -31,7 +31,7 @@ We can extend this functionality.
   {
       "user_id": "user123",
       "availability": [
-          {"start_time": "2024-09-27T09:00:00Z", "end_time": "2024-09-27T10:00:00Z"}
+          {"start_time": "2024-09-27T09:00:00Z", "end_time": "2024-09-27T10:00:00Z", "period": "weekly"}
       ]
   }
 - **Response**: 
@@ -71,8 +71,8 @@ Reschedule availability time slot
 - **Request**: 
   ```json
     {
-      "start_time": "2024-09-29T09:00:00+00:00",
-      "end_time": "2024-09-29T11:00:00+00:00"
+      "start_time": "2024-09-30T09:00:00+00:00",
+      "end_time": "2024-09-30T11:00:00+00:00"
   }
 - **Response**: 
     ```json

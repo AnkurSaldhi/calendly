@@ -52,8 +52,8 @@ print("Overlap between User 1 and User 2 found successfully.", overlap_data)
 
 # 5. Get Availability for User 1 After Deleting a Slot
 delete_slot = {
-        "start_time": "2024-09-29T09:00:00+00:00",
-        "end_time": "2024-09-29T11:00:00+00:00"
+        "start_time": "2024-09-30T09:00:00+00:00",
+        "end_time": "2024-09-30T11:00:00+00:00"
 }
 
 response = requests.delete(f"{BASE_URL}/availability", json=delete_slot)
