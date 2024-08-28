@@ -31,7 +31,7 @@ We can extend this functionality.
   {
       "user_id": "user123",
       "availability": [
-          {"start_time": "2024-09-27T09:00:00Z", "end_time": "2024-09-27T10:00:00Z", "period": "weekly"}
+          {"start_time": "2024-09-27T09:00:00Z", "end_time": "2024-09-27T10:00:00Z", "period": "weekdays"}
       ]
   }
 - **Response**: 
