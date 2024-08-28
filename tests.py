@@ -1,12 +1,13 @@
 import requests
 
 BASE_URL = "http://127.0.0.1:9000"
+# BASE_URL="https://calendly-chi-nine.vercel.app/"
 
 # Test Data
 user1_availability = {
     "user_id": "user123",
     "availability": [
-        {"start_time": "2024-09-27T09:00:00+00:00", "end_time": "2024-09-27T11:00:00+00:00"},
+        {"start_time": "2024-09-27T09:00:00+00:00", "end_time": "2024-09-27T11:00:00+00:00", "period": "weekdays"},
         {"start_time": "2024-09-29T09:00:00+00:00", "end_time": "2024-09-29T11:00:00+00:00"},
         {"start_time": "2024-09-30T09:00:00+00:00", "end_time": "2024-09-30T11:00:00+00:00"}
     ]
@@ -49,22 +50,15 @@ assert len(overlap_data['overlap']) > 0, "Expected at least one overlapping inte
 print("Overlap between User 1 and User 2 found successfully.", overlap_data)
 
 
-# 5. Get Availability for User 1 After Rescheduling
-# Reschedule Test Data
-reschedule_data = {
-    "old_slot": {
+# 5. Get Availability for User 1 After Deleting a Slot
+delete_slot = {
         "start_time": "2024-09-29T09:00:00+00:00",
         "end_time": "2024-09-29T11:00:00+00:00"
-    },
-    "new_slot": {
-        "start_time": "2024-09-29T12:00:00+00:00",
-        "end_time": "2024-09-29T14:00:00+00:00"
-    }
 }
 
-response = requests.post(f"{BASE_URL}/reschedule", json=reschedule_data)
+response = requests.delete(f"{BASE_URL}/availability", json=delete_slot)
 assert response.status_code == 200, f"Expected 200, got {response.status_code}"
-print("User 1 slot rescheduled successfully.")
+print("User 1 slot deleted successfully.")
 
 response = requests.get(f"{BASE_URL}/availability")
 assert response.status_code == 200, f"Expected 200, got {response.status_code}"
@@ -72,11 +66,10 @@ user1_data_after_reschedule = response.json()
 print("User 1 availability after rescheduling retrieved successfully.", user1_data_after_reschedule)
 
 # Verify the rescheduled slot is updated
-expected_new_slot = reschedule_data["new_slot"]
 rescheduled_slots = [
     slot for slot in user1_data_after_reschedule['availability']
-    if slot['start_time'] == expected_new_slot['start_time'] and slot['end_time'] == expected_new_slot['end_time']
+    if slot['start_time'] == delete_slot['start_time'] and slot['end_time'] == delete_slot['end_time']
 ]
 
-assert len(rescheduled_slots) > 0, "Rescheduled slot not found in user availability"
-print("Rescheduled slot verified successfully.")
+assert len(rescheduled_slots) == 0, "Error: Deleted slot found in user availability"
+print("Delete slot functionality verified successfully.")
