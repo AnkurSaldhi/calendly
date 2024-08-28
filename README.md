@@ -23,7 +23,7 @@ This repository contains a simple implementation of a Calendly-like scheduling A
 - BASE_URL: https://calendly-chi-nine.vercel.app/
 
 ### 1. `/availability` (POST)
-Set a user's availability. Period is taken either "weekly" or "none" for now. 
+Set a user's availability. Period is taken either "weekdays" or "none" for now. 
 We can extend this functionality.
 
 - **Request**: 
