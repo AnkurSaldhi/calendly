@@ -16,7 +16,7 @@ This repository contains a simple implementation of a Calendly-like scheduling A
 - **Set Availability**: Users can set their availability in UTC.
 - **View Availability**: Retrieve the availability of a user.
 - **Find Overlap**: Determine overlapping availability between two users.
-- **Delete Availability(Pre-Existing Slot)**: Remove existing availability.
+- **Delete Availability (Pre-Existing Slot)**: Remove existing availability.
 
 ## Endpoints
 - Hosted the app on vercel.
@@ -69,19 +69,13 @@ Reschedule availability time slot
 - **Request**: 
   ```json
     {
-    "old_slot": {
       "start_time": "2024-09-29T09:00:00+00:00",
       "end_time": "2024-09-29T11:00:00+00:00"
-    },
-    "new_slot": {
-      "start_time": "2024-09-29T12:00:00+00:00",
-      "end_time": "2024-09-29T14:00:00+00:00"
-    }
   }
 - **Response**: 
     ```json
   {
-      "message": "Availability rescheduled successfully"
+      "message": "Availability slot deleted successfully"
   }
   
 ## Setup

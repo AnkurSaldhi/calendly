@@ -168,7 +168,7 @@ def update_availability():
 
     # Sort the intervals for efficient overlap calculations
     availability_db[user_id].sort()
-    return jsonify({"message": "Availability rescheduled successfully"}), 200
+    return jsonify({"message": "Availability slot deleted successfully"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
