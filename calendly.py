@@ -161,7 +161,7 @@ def update_availability():
         return jsonify({"error": "Timestamps must be in UTC format (e.g., '2024-09-27T09:00:00Z')."}), 400
 
     if user_id not in availability_db or (start_time, end_time) not in availability_db[user_id]:
-        return jsonify({"error": "Old slot not found in availability."}), 404
+        return jsonify({"error": "Slot not found in availability."}), 404
 
     # Remove the old slot
     availability_db[user_id].remove((start_time, end_time))
