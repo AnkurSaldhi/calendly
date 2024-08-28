@@ -1,38 +1,82 @@
-# Harbor Take Home Project
+# Calendly API with Flask
 
-Welcome to the Harbor take home project. We hope this is a good opportunity for you to showcase your skills.
+This repository contains a simple implementation of a Calendly-like scheduling API using Flask in Python. The API allows users to set their availability, view availability, and find overlapping time slots between two users.
 
-## The Challenge
+## Assumptions
+- **user_id='user123'** is considered as logged_in user for get_availability and finding overlap 
+- For simplicity purpose, set_availability is allowed to set for any user. 
+   In ideal scenario, current user can set his availability only
+- In memory DB is taken for consideration
+- In apis, only UTC timezone is allowed. This will avoid complexity in codebase.
+- User has to pass isoformat str as datetimes for setting availability.
 
-Build us a REST API for calendly. Remember to support
 
-- Setting own availability
-- Showing own availability
-- Finding overlap in schedule between 2 users
+## Features
 
-It is up to you what else to support.
+- **Set Availability**: Users can set their availability in UTC.
+- **View Availability**: Retrieve the availability of a user.
+- **Find Overlap**: Determine overlapping availability between two users.
 
-## Expectations
+## Endpoints
 
-We care about
+### 1. `/availability` (POST)
+Set a user's availability.
+- **Request**: 
+  ```json
+  {
+      "user_id": "user123",
+      "availability": [
+          {"start_time": "2024-09-27T09:00:00Z", "end_time": "2024-09-27T10:00:00Z"}
+      ]
+  }
+- **Response**: 
+  ```json
+    {
+    "message": "Availability set successfully"
+    }
 
-- Have you thought through what a good MVP looks like? Does your API support that?
-- What trade-offs are you making in your design?
-- Working code - we should be able to pull and hit the code locally. Bonus points if deployed somewhere.
-- Any good engineer will make hacks when necessary - what are your hacks and why?
+### 2. `/availability` (GET)
+Set a user's availability.
+- **Response**: 
+  ```json
+    {
+        "user_id": "user123",
+        "availability": [
+            {"start_time": "2024-09-27T09:00:00Z", "end_time": "2024-09-27T10:00:00Z"}
+        ]
+    }
 
-We don't care about
+### 3. `/overlap` (GET)
+Set a user's availability.
+- **Request**: 
+  ```json
+    {
+    "user_id_2": "user456"
+    }
+- **Response**: 
+  ```json
+    {
+        "overlap": [
+            {"start_time": "2024-09-27T09:00:00Z", "end_time": "2024-09-27T09:30:00Z"}
+        ]
+    }
 
-- Authentication
-- UI
-- Perfection - good and working quickly is better
 
-It is up to you how much time you want to spend on this project. There are likely diminishing returns as the time spent goes up.
+## Setup
 
-## Submission
+### 1. Clone the Repository
 
-Please fork this repository and reach out to Prakash when finished.
-
-## Next Steps
-
-After submission, we will conduct a 30 to 60 minute code review in person. We will ask you about your thinking and design choices.
+```bash
+    git clone https://github.com/AnkurSaldhi/calendly.git
+    cd calendly
+```
+### 2. Create virtual env
+```bash
+  python -m venv venv
+  source venv/bin/activate
+```
+### 3. Run flask server
+```bash
+  export FLASK_APP=calendly.py
+  flask run
+```

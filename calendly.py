@@ -61,7 +61,7 @@ def set_availability():
     UTC timezone will be considered
     """
     data = request.json
-    user_id = data['user_id']
+    user_id = data['user_id'] #
 
     if user_id not in availability_db:
         availability_db[user_id] = []
@@ -77,7 +77,8 @@ def set_availability():
         if not is_future_date(start_time):
             return jsonify({"error": f"Start time {start_time.isoformat()} is not in the future."}), 400
 
-        availability_db[user_id].append((start_time, end_time))
+        if (start_time,end_time) not in availability_db[user_id]:
+            availability_db[user_id].append((start_time, end_time))
 
     # Sorting the intervals for efficient overlap calculations
     availability_db[user_id].sort()
@@ -87,7 +88,7 @@ def set_availability():
 # Endpoint to get own availability
 @app.route('/availability', methods=['GET'])
 def get_availability():
-    user_id = 'user123'
+    user_id = 'user123' # current session user
     user_availability = availability_db.get(user_id, [])
 
     future_availability = [
@@ -101,7 +102,7 @@ def get_availability():
             "end_time": to_iso8601(end_time)
         } for start_time, end_time in future_availability
     ]
-    return jsonify({"user_id": user_id, "availability": formatted_availability}), 200
+    return jsonify({"availability": formatted_availability}), 200
 
 
 # Endpoint to find overlap between logged_in and another user

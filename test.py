@@ -35,7 +35,6 @@ print("User 2 availability set successfully.")
 response = requests.get(f"{BASE_URL}/availability")
 assert response.status_code == 200, f"Expected 200, got {response.status_code}"
 user1_data = response.json()
-assert user1_data['user_id'] == 'user123', f"Expected user_id to be 'user123', got {user1_data['user_id']}"
 print("User 1 availability retrieved successfully.", user1_data)
 
 
