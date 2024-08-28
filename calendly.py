@@ -54,6 +54,9 @@ def is_future_date(date):
     current_time = datetime.now(tz=timezone.utc)
     return date > current_time
 
+@app.route('/', methods=['POST'])
+def ping():
+    return jsonify({"message": "Server Running"})
 
 @app.route('/availability', methods=['POST'])
 def set_availability():
