@@ -3,7 +3,7 @@
 This repository contains a simple implementation of a Calendly-like scheduling API using Flask in Python. The API allows users to set their availability, view availability, and find overlapping time slots between two users.
 
 ## Assumptions
-- **user_id='user123'** is considered as logged_in user for get_availability and finding overlap 
+- **user_id='user123'** is considered as logged_in user for get_availability, reschedule and finding overlap 
 - For simplicity purpose, set_availability is allowed to set for any user. 
    In ideal scenario, current user can set his availability only
 - In memory DB is taken for consideration
@@ -16,6 +16,7 @@ This repository contains a simple implementation of a Calendly-like scheduling A
 - **Set Availability**: Users can set their availability in UTC.
 - **View Availability**: Retrieve the availability of a user.
 - **Find Overlap**: Determine overlapping availability between two users.
+- **Reschedule Pre-Existing Slot**: Remove old availability and add new availability.
 
 ## Endpoints
 
@@ -61,7 +62,26 @@ Set a user's availability.
         ]
     }
 
-
+### 4. `/reschedule` (POST)
+Reschedule availability time slot
+- **Request**: 
+  ```json
+    {
+    "old_slot": {
+      "start_time": "2024-09-29T09:00:00+00:00",
+      "end_time": "2024-09-29T11:00:00+00:00"
+    },
+    "new_slot": {
+      "start_time": "2024-09-29T12:00:00+00:00",
+      "end_time": "2024-09-29T14:00:00+00:00"
+    }
+  }
+- **Response**: 
+    ```json
+  {
+      "message": "Availability rescheduled successfully"
+  }
+  
 ## Setup
 
 ### 1. Clone the Repository

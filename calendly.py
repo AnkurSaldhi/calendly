@@ -77,6 +77,10 @@ def set_availability():
         if not is_future_date(start_time):
             return jsonify({"error": f"Start time {start_time.isoformat()} is not in the future."}), 400
 
+        # Check if the start_time is in the future
+        if end_time<start_time:
+            return jsonify({"error": f"Start time must be less than end time"}), 400
+
         if (start_time,end_time) not in availability_db[user_id]:
             availability_db[user_id].append((start_time, end_time))
 
@@ -127,6 +131,38 @@ def find_overlap(user_id_2):
 
     return jsonify({"overlap": overlap}), 200
 
+
+@app.route('/reschedule', methods=['POST'])
+def reschedule_availability():
+    data = request.json
+    user_id = 'user123' # logged in user
+    old_slot = data['old_slot']
+    new_slot = data['new_slot']
+
+    old_start_time = parse_iso8601(old_slot['start_time'])
+    old_end_time = parse_iso8601(old_slot['end_time'])
+    new_start_time = parse_iso8601(new_slot['start_time'])
+    new_end_time = parse_iso8601(new_slot['end_time'])
+
+    if old_start_time is None or old_end_time is None or new_start_time is None or new_end_time is None:
+        return jsonify({"error": "Timestamps must be in UTC format (e.g., '2024-09-27T09:00:00Z')."}), 400
+
+    if not is_future_date(new_start_time):
+        return jsonify({"error": f"New start time {new_start_time.isoformat()} is not in the future."}), 400
+
+    if new_end_time < new_start_time:
+        return jsonify({"error": f"New Start time must be less than new end time"}), 400
+
+    if user_id not in availability_db or (old_start_time, old_end_time) not in availability_db[user_id]:
+        return jsonify({"error": "Old slot not found in availability."}), 404
+
+    # Remove the old slot and add the new slot
+    availability_db[user_id].remove((old_start_time, old_end_time))
+    availability_db[user_id].append((new_start_time, new_end_time))
+
+    # Sort the intervals for efficient overlap calculations
+    availability_db[user_id].sort()
+    return jsonify({"message": "Availability rescheduled successfully"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
